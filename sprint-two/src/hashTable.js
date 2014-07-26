@@ -23,10 +23,8 @@ HashTable.prototype.insert = function(k, v){
   if(!firstNode){
     this._storage.set(i,createNode(k,v));
   }else{
-    insertAt(firstNode);
+    insertAt(firstNode, k, v);
   }
-  //we're going to store v in ._storage at index i
-  //this._storage.set(i, v);
 };
 
 HashTable.prototype.retrieve = function(k){
@@ -36,8 +34,8 @@ HashTable.prototype.retrieve = function(k){
     if(currentNode){
       if(currentNode.key === k){
         return currentNode.value;
-    }else if(currentNode.next){
-      return findAt(currentNode.next, k);
+      }else if(currentNode.next){
+        return findAt(currentNode.next, k);
       }
     }else{
       return null;
@@ -45,10 +43,9 @@ HashTable.prototype.retrieve = function(k){
   };
 
   var firstNode = this._storage.get(i);
-  //var foundNode = null;
   var foundValue = findAt(firstNode, k);
+
   return foundValue;
-  //return this._storage.get(i).value;
 };
 
 HashTable.prototype.remove = function(k){
