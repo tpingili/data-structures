@@ -1,6 +1,5 @@
 var Graph = function(){
   this._storage = {};
-
 };
 
 Graph.prototype._GraphNode = function(value){
@@ -11,7 +10,7 @@ Graph.prototype._GraphNode = function(value){
 Graph.prototype.addNode = function(newNode, toNode){
   //create a GraphNode with newNode as value
   var node = new this._GraphNode(newNode);
-  //if toNode doesn't exist
+  //if toNode doesn't exist, we
   if(toNode === undefined){
     //Add newNode to __storage ONLY if _storage is empty
     var keys = Object.keys(this._storage);
@@ -48,11 +47,7 @@ Graph.prototype.removeNode = function(node){
 };
 
 Graph.prototype.getEdge = function(fromNode, toNode){
-  if(this._storage[fromNode].edges[toNode]!== undefined){
-    return true;
-  }else{
-    return false;
-  }
+  return this._storage[fromNode].edges[toNode]!== undefined ? true: false;
 };
 
 Graph.prototype.addEdge = function(fromNode, toNode){
@@ -64,7 +59,24 @@ Graph.prototype.addEdge = function(fromNode, toNode){
   }
 };
 
+Graph.prototype.isNodeIsolated = function (node){
+  var edges = Object.keys(this._storage[node].edges);
+  return edges.length === 0 ? true : false;
+};
+
 Graph.prototype.removeEdge = function(fromNode, toNode){
+  var n1 = fromNode;
+  var n2 = toNode;
+  if(n1 && n2){
+    delete this._storage[n1].edges[n2];
+    if(this.isNodeIsolated(n1)){
+      delete this._storage[n1];
+    }
+    delete this._storage[n2].edges[n1];
+    if(this.isNodeIsolated(n2)){
+      delete this._storage[n2];
+    }
+  }
 };
 
 /*
